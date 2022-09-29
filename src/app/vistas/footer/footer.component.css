@@ -1,0 +1,37 @@
+
+
+
+ /* ============   Tipografías Globales para Escritorio ============ */
+ @media screen and (min-width: 800px) {
+    #footer{
+        background-color: #fff;
+        padding: 1% 2% 1% 2%;
+        text-align: center;
+      }
+    
+      #footer> a{
+        text-decoration: none;
+        color: #161616;
+        font-size: 18px;
+      }
+}
+
+
+
+  /* ============   Tipografías Globales para Tablet y Movil ============ */
+@media screen and (max-width: 800px) {  
+
+
+    #footer{
+        background-color: #fff;
+        padding: 2% 2% 2% 2%;
+        text-align: center;
+      }
+    
+      #footer> a{
+        text-decoration: none;
+        color: #161616;
+      }
+
+ 
+}    

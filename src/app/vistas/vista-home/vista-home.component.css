@@ -1,0 +1,333 @@
+/* ------------------------- Pantallas Grandes----------------------------------*/
+@media screen and (min-width: 800px) {
+
+  h1 {
+    font-size: 4.5em;
+    line-height: 1.1em;
+    margin: 0.4em;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin: 0.4em;
+  }
+
+
+  h3 {
+    font-size: 1.2em;
+    margin: 0.4em;
+  }
+
+
+  p {
+    font-size: 1.2em;
+    line-height: 1.6em;
+    margin: 0.4em;
+  }
+
+  ul {
+    margin: 0.4em;
+  }
+
+  li {
+    font-size: 1.2em;
+    line-height: 1.6em;
+    list-style: none;
+    margin: 0.4em;
+  }
+
+
+
+  /*CONTENEDOR 1 - HIJOS*/
+
+  #contenedor1 {
+    background-color: #161616;
+    padding: 5% 30% 6% 30%;
+  }
+
+  #c1-hijo1 {
+    text-align: center;
+    color: #fff;
+
+  }
+
+  #c1-hijo2 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    column-gap: 15px;
+
+  }
+
+
+
+
+
+  .btn-compartir {
+    background-color: #1a1a1a;
+    border-color: #fff;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 5px;
+  }
+
+
+  .btn-confesar {
+    background-color: #ffc145;
+    border-color: #ffc145;
+    color: #1a1a1a;
+    padding: 12px 25px;
+    border-radius: 5px;
+  }
+
+
+  /*CONTENEDOR 2 - HIJOS*/
+  #contenedor2 {
+    background-color: #fff;
+    padding: 2% 30% 2% 30%;
+
+  }
+
+  #form-enviar {
+
+    background-color: #ffc145;
+    color: #1a1a1a;
+    padding: 12px 50px;
+    border-radius: 5px;
+    border-style: none;
+    margin: 1%;
+  }
+
+  #form-cancelar {
+
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    padding: 12px 50px;
+    border-radius: 5px;
+    border-style: none;
+    margin: 1%;
+  }
+
+
+
+  #form-secreto {
+
+    height: 150px;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+
+  #form-categoria {
+    height: 40px;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+
+
+
+  /*CONTENEDOR 3 - HIJOS*/
+
+  #contenedor3 {
+    background-color: rgb(236, 236, 236);
+    padding: 3% 15% 3% 15%;
+    text-align: center;
+  }
+
+  #c3-hijo1 {
+    text-align: center;
+  }
+
+
+  #c3-seccion-editar-secreto {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  #c3-seccion-filtrar-categoria{
+    padding: 20px;
+    display: flex;
+    float: right;
+  }
+
+  #c3-seccion-filtrar-categoria > form> select{
+    width: 90px;
+    height: 30px;
+  }
+
+  #c3-seccion-filtrar-categoria > form> input{
+    width: 90px;
+    height: 30px;
+  }
+ 
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* -------------------------Smartfones--------------------*/
+@media screen and (max-width: 800px) {
+
+  h1 {
+    font-size: 2.4em;
+    line-height: 1.1em;
+    margin: 0.4em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin: 0.4em;
+  }
+
+
+  h3 {
+    font-size: 1.1em;
+    margin: 0.4em;
+  }
+
+
+  p {
+    font-size: 1em;
+    line-height: 1.6em;
+    margin: 0.4em;
+  }
+
+  ul {
+    margin: 0.4em;
+  }
+
+  li {
+    font-size: 1em;
+    line-height: 1.6em;
+    list-style: none;
+    margin: 0.4em;
+  }
+
+  #contenedor1 {
+    background-color: #ffc145;
+  }
+
+
+
+  /*CONTENEDOR 1 - HIJOS*/
+
+  #contenedor1 {
+    background-color: #161616;
+    padding: 5% 5% 6% 5%;
+
+  }
+
+  #c1-hijo1 {
+    text-align: center;
+    color: #fff;
+
+  }
+
+  #c1-hijo2 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    column-gap: 15px;
+
+  }
+
+
+
+
+
+  .btn-compartir {
+    background-color: #1a1a1a;
+    border-color: #fff;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 5px;
+  }
+
+
+  .btn-confesar {
+    background-color: #ffc145;
+    border-color: #ffc145;
+    color: #1a1a1a;
+    padding: 12px 25px;
+    border-radius: 5px;
+  }
+
+
+  /*CONTENEDOR 2 - HIJOS*/
+  #contenedor2 {
+    background-color: #fff;
+    padding: 10% 5% 10% 5%;
+
+  }
+
+  #form-enviar {
+
+    background-color: #ffc145;
+    border-color: #ffc145;
+    color: #1a1a1a;
+    padding: 12px 50px;
+    border-radius: 5px;
+    margin: 1%;
+  }
+
+  #form-cancelar {
+
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    padding: 12px 50px;
+    border-radius: 5px;
+    border-style: none;
+    margin: 1%;
+  }
+
+
+
+  #form-secreto {
+
+    height: auto;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+
+  #form-categoria {
+    height: 30px;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+
+
+
+  /*CONTENEDOR 3 - HIJOS*/
+
+  #contenedor3 {
+    background-color: rgb(236, 236, 236);
+    padding: 5% 5% 5% 5%;
+
+  }
+
+  #c3-hijo1 {
+    text-align: center;
+  }
+
+
+
+
+
+
+
+}

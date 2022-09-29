@@ -1,0 +1,145 @@
+
+<!--  SECCIÓN: ENCABEZADO  -->
+<div id="contenedor1">
+  <div id="c1-hijo1">
+    <h1><b>¿TIENES UN<br> SECRETO?</b> </h1>
+    <p>Un espacio en donde todos comparten sus secretos más íntimos (o los de alguien más) y estos se pierden en el
+      universo de la web, ya que nadie sabe quién los escribió,<br> ¿tienes el valor de intentarlo?</p>
+  </div>
+  <div id="c1-hijo2">
+    <a href="#anclaje-listado-secretos"><button class="btn-compartir">Ver Secretos</button></a>
+    <a href="#anclaje-nuevo-secreto" id="btnConfesar"><button class="btn-confesar"> ¡Confesar Algo!</button></a>
+  </div>
+</div>
+
+
+
+<!--  SECCIÓN: REGISTRAR/EDITAR SECRETO  -->
+<a id="anclaje-nuevo-secreto"></a>
+<div id="contenedor2">
+
+
+  <div *ngIf="mensajeValidarForm" class="alert alert-danger" role="alert">
+      <p>{{mensajeValidarForm}}</p>
+  </div>
+
+
+  <!--Formulario Registro/Editar-->
+  <h2><b>{{tituloForm}}</b></h2>
+  <form id="formulario-envio" (ngSubmit)="guardarSecreto()" [formGroup]="validarFormulario">
+
+    <!--Activo solo para Editar -->
+    <div *ngIf="entitySecreto.id"><br>
+      <label><b>ID: </b>{{entitySecreto.id}} </label>&nbsp;&nbsp;<label><b>Fecha:
+        </b>{{entitySecreto.fCreacion}}</label><br>
+      <input type="number" formControlName="fg_id" [(ngModel)]="entitySecreto.id" name="id" id="form-id" hidden>
+      <input type="date" formControlName="fg_fCracion" [(ngModel)]="entitySecreto.fCreacion" name="fCreacion"
+        id="fg_fCracion" hidden>
+    </div>
+
+    <p>Escribe Aquí: (500 Caracteres como máximo)</p>
+    <textarea formControlName="fg_secreto" [(ngModel)]="entitySecreto.secreto" name="secreto" maxlength="500"
+      id="form-secreto"></textarea><br>
+    <p>Elige una Categoría:</p>
+    <select formControlName="fg_categoria" [(ngModel)]="entitySecreto.categoria" name="categoria" id="form-categoria">
+      <option value="Mio"> Mio</option>
+      <option value="Familia">Familia</option>
+      <option value="Trabajo">Trabajo</option>
+      <option value="Amigos">Amigos</option>
+      <option value="Pareja">Pareja</option>
+      <option value="Conocido">Conocido</option>
+    </select><br>
+    <input type="submit" value="{{tituloBtn}}" id="form-enviar">
+
+    <!-- Sección: Activa solo para Editar -->
+    <button *ngIf="entitySecreto.id" type="button" (click)="activarFormularioGuardar()" id="form-cancelar">Cancelar</button>
+
+  </form>
+</div>
+
+
+
+
+
+<!--  SECCIÓN: LISTADO DE SECRETOS  -->
+<span id="anclaje-listado-secretos"></span>
+<div id="contenedor3">
+
+  <!-- Activa solo para usuarios que hayan guardado un secreto-->
+  <div *ngIf="puedeEditarSecreto" id="c3-seccion-editar-secreto">
+    <h2><b>😎 Mi secreto:</b></h2>
+    <p>Aquí puedes editar y/o eliminar tu secreto, recuerda que, si creas un nuevo, recargas o cierras la pestaña ya no podrás hacerlo</p><br>
+    <table class="table">
+      <thead>
+        <tr>
+          <td scope="col"><b>📍 No. Secreto:</b></td>
+          <td scope="col"><b>📧 Secreto:</b></td>
+          <td scope="col"><b>📁 Categoría:</b></td>
+          <td scope="col"><b>📆 Fecha:</b></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{entitySecretoGuardado.id}}</td>
+          <td>{{entitySecretoGuardado.secreto}}</td>
+          <td>{{entitySecretoGuardado.categoria}}</td>
+          <td>{{entitySecretoGuardado.fCreacion}}</td>
+        </tr>
+      </tbody>
+    </table>       
+    <div>
+      <button type="button" (click)="buscarSecreto(entitySecretoGuardado)" class="btn btn-success">Editar</button>
+      <button type="button" (click)="eliminarSecreto(entitySecretoGuardado)" class="btn btn-danger">Eliminar</button>
+    </div>     
+    <br><br>
+  </div>
+
+
+  <hr>
+
+  <!-- Se muestra cuando NO hay secretos a listar -->
+  <div *ngIf="listaSecretos==undefined; else seccionListado" id="c3-hijo1">
+    <h2><b>🔐 Aun no hay Secretos Guardados:</b></h2>
+    <p>Se el primero en escribir uno, nadie sabra que fuiste tu</p>
+  </div>
+
+  
+ <!-- Se muestra cuando SI hay secretos a listar -->
+  <ng-template #seccionListado id="c3-hijo2">
+    <h2><b>🔐 Secretos Guardados:</b></h2><br>
+
+  <!-- Formulario para filtrar por categoria-->
+    <div id="c3-seccion-filtrar-categoria">
+        <form  (ngSubmit)="filtrarSecretosCategoria()" [formGroup]="formFiltrarCategoria" class="form">
+          <select formControlName="formFiltrarCategoria_opcion" name="categoria"  [(ngModel)]="entityListarFiltro.categoria">
+            <option value="Todos" selected="true"> Todos</option>
+            <option value="Familia">Familia</option>
+            <option value="Trabajo">Trabajo</option>
+            <option value="Amigos">Amigos</option>
+            <option value="Pareja">Pareja</option>
+            <option value="Conocido">Conocido</option>
+          </select>&nbsp; 
+          <input type="submit" value="Filtrar">
+        </form>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <td scope="col"><b>📍 No. Secreto:</b></td>
+          <td scope="col"><b>📧 Secreto:</b></td>
+          <td scope="col"><b>📁 Categoría:</b></td>
+          <td scope="col"><b>📆 Fecha:</b></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let variable of listaSecretos">
+          <td>{{variable.id}}</td>
+          <td>{{variable.secreto}}</td>
+          <td>{{variable.categoria}} </td>
+          <td>{{variable.fCreacion}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

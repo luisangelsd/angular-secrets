@@ -1,0 +1,12 @@
+
+ /* ============   Tipografías Globales para Escritorio ============ */
+
+
+ #header{
+  text-align: center;
+  padding: 4px 0px 4px 0px;
+}
+
+#header > h1{
+font-size: 25px;
+}
