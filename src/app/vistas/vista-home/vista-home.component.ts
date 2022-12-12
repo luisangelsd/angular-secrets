@@ -45,6 +45,7 @@ export class VistaHomeComponent implements OnInit {
 
   });
 
+  
   //----- Validar formulario filtrar
   formFiltrarCategoria = new FormGroup({
     formFiltrarCategoria_opcion: new FormControl("", Validators.required)
