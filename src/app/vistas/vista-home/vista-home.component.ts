@@ -219,7 +219,8 @@ export class VistaHomeComponent implements OnInit {
 
   //----- Metodo buscar secreto
   public buscarSecreto(entitySecreto: EntitySecreto) {
-    this.servicioDao.buscarSecreto(entitySecreto.id).subscribe(respuesta => {
+    this.servicioDao.buscarSecreto(entitySecreto.id).subscribe(
+    respuesta => {
       this.entitySecreto = respuesta;
       this.activarFormularioEditar();
       this.listarSecretos();

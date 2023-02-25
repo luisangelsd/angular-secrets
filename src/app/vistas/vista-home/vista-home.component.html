@@ -113,6 +113,7 @@
         <form  (ngSubmit)="filtrarSecretosCategoria()" [formGroup]="formFiltrarCategoria" class="form">
           <select formControlName="formFiltrarCategoria_opcion" name="categoria"  [(ngModel)]="entityListarFiltro.categoria">
             <option value="Todos" selected="true"> Todos</option>
+            <option value="Mio">Mio</option>
             <option value="Familia">Familia</option>
             <option value="Trabajo">Trabajo</option>
             <option value="Amigos">Amigos</option>

@@ -9,7 +9,7 @@ import { EntitySecreto } from '../entitys/entity-secreto';
 export class ServicioDaoApiService {
 
 //============ Variables globales
-private urlEndPoint: String="https://sc-spring-api-dao.herokuapp.com/";
+private urlEndPoint: String="http://springsecrets-env.eba-b7xdes2k.us-west-2.elasticbeanstalk.com/";
 //private urlEndPoint: String="http://localhost:8080/";
 
 
