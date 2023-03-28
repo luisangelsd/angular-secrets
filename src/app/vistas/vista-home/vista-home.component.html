@@ -37,8 +37,8 @@
         id="fg_fCracion" hidden>
     </div>
 
-    <p>Escribe Aquí: (500 Caracteres como máximo)</p>
-    <textarea formControlName="fg_secreto" [(ngModel)]="entitySecreto.secreto" name="secreto" maxlength="500" maxlength="20"
+    <p>Escribe Aquí: (500 Caracteres como máximo sin emojics)</p>
+    <textarea formControlName="fg_secreto" [(ngModel)]="entitySecreto.secreto" name="secreto" maxlength="500" 
       id="form-secreto"></textarea><br>
     <p>Elige una Categoría:</p>
     <select formControlName="fg_categoria" [(ngModel)]="entitySecreto.categoria" name="categoria" id="form-categoria">
