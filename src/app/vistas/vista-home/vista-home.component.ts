@@ -44,10 +44,6 @@ export class VistaHomeComponent implements OnInit {
   });
 
   
-  //----- Validar formulario filtrar
-  formFiltrarCategoria = new FormGroup({
-    formFiltrarCategoria_opcion: new FormControl("", Validators.required)
-  });
 
 
 
@@ -102,19 +98,23 @@ export class VistaHomeComponent implements OnInit {
      //----- Metodo listar secretos por filtro
   public filtrarSecretosCategoria(): void {
 
-    if (this.formFiltrarCategoria.valid) {
+    let categoria: String=  (document.getElementById('filtro-buscar-por-categoria') as HTMLInputElement).value;
 
-      if (this.entityListarFiltro.categoria=="Todos") {
+   
+
+      if (categoria=="Todos") {
         this.listarSecretosPaginado(0);
       } else {
-         this.servicioDao.listarSecretosPorCategoria(this.entityListarFiltro.categoria).subscribe(respuesta => {
+         this.servicioDao.listarSecretosPorCategoria(categoria).subscribe(respuesta => {
                  this.listaSecretos = respuesta;  
+                 this.numeroPaginas=[];
           },
             err => {
               switch (err.status) {
 
                 case 404:
-                  swal.fire("¡SECRETOS NO ENCONTRADOS!", "Lo sentimos, no existe ningun secreto relacionado a esta categoria", "error");
+                  this.listaSecretos=[];
+                  this.numeroPaginas=[];
 
                   break;
 
@@ -125,7 +125,7 @@ export class VistaHomeComponent implements OnInit {
             })
       }
 
-    }
+    
 
   }
 

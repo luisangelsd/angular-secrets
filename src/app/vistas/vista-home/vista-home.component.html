@@ -110,17 +110,16 @@
 
   <!-- Formulario para filtrar por categoria-->
     <div id="c3-seccion-filtrar-categoria">
-        <form  (ngSubmit)="filtrarSecretosCategoria()" [formGroup]="formFiltrarCategoria" class="form">
-          <select formControlName="formFiltrarCategoria_opcion" name="categoria"  [(ngModel)]="entityListarFiltro.categoria" >
-            <option value="Todos" selected="true"> Todos</option>
+        <form  class="form">
+          <select  name="categoria" id="filtro-buscar-por-categoria" (change)="filtrarSecretosCategoria()">
+            <option value="Todos" selected="true" > Todos</option>
             <option value="Mio">Mio</option>
             <option value="Familia">Familia</option>
             <option value="Trabajo">Trabajo</option>
             <option value="Amigos">Amigos</option>
             <option value="Pareja">Pareja</option>
             <option value="Conocido">Conocido</option>
-          </select>&nbsp; 
-          <input type="submit" value="Filtrar">
+          </select>
         </form>
     </div>
 
