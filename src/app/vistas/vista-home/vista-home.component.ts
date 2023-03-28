@@ -79,16 +79,15 @@ export class VistaHomeComponent implements OnInit {
 
     //----- Metodo listar secretos por paginando
     public  listarSecretosPaginado(pagina:number): void {
-      this.servicioDao.listarPaginadoSecretos(pagina, 6 ).subscribe(respuesta => {
+      this.servicioDao.listarPaginadoSecretos(pagina, 10 ).subscribe(respuesta => {
         this.listaSecretos = respuesta.content;
-        console.warn(respuesta.totalPages);
         this.creandoPaginadoParaRecorrer(respuesta.totalPages);
         
       },
         err => {
           switch (err.status) {
             default:
-              swal.fire("¡ERROR AL CARGAR!",err+ "Lo sentimos, ha ocurrido un error al cargar los secretos, recarga la página o vuelve a intentar más tarde", "error");
+              swal.fire("¡ERROR AL CARGAR!", err.error + "Lo sentimos, ha ocurrido un error al cargar los secretos, recarga la página o vuelve a intentar más tarde", "error");
               break;
           }
         }
