@@ -38,7 +38,7 @@
     </div>
 
     <p>Escribe Aquí: (500 Caracteres como máximo)</p>
-    <textarea formControlName="fg_secreto" [(ngModel)]="entitySecreto.secreto" name="secreto" maxlength="500"
+    <textarea formControlName="fg_secreto" [(ngModel)]="entitySecreto.secreto" name="secreto" maxlength="500" maxlength="20"
       id="form-secreto"></textarea><br>
     <p>Elige una Categoría:</p>
     <select formControlName="fg_categoria" [(ngModel)]="entitySecreto.categoria" name="categoria" id="form-categoria">
@@ -111,7 +111,7 @@
   <!-- Formulario para filtrar por categoria-->
     <div id="c3-seccion-filtrar-categoria">
         <form  (ngSubmit)="filtrarSecretosCategoria()" [formGroup]="formFiltrarCategoria" class="form">
-          <select formControlName="formFiltrarCategoria_opcion" name="categoria"  [(ngModel)]="entityListarFiltro.categoria">
+          <select formControlName="formFiltrarCategoria_opcion" name="categoria"  [(ngModel)]="entityListarFiltro.categoria" >
             <option value="Todos" selected="true"> Todos</option>
             <option value="Mio">Mio</option>
             <option value="Familia">Familia</option>
@@ -142,5 +142,13 @@
         </tr>
       </tbody>
     </table>
+    <br>
+    <small>Páginas:</small>
+    <div  id="paginador">
+        <div *ngFor="let variable of numeroPaginas" >
+          <button (click)="listarSecretosPaginado(variable)" >{{ (variable+1) }}</button>
+      </div>
+    </div>
+
   </ng-template>
 </div>

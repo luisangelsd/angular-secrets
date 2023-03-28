@@ -1,6 +1,12 @@
 /* ------------------------- Pantallas Grandes----------------------------------*/
 @media screen and (min-width: 800px) {
 
+#contenido{
+  display: grid;
+  columns: 33% 33% 33%;
+  background-color: #dc3545;
+}
+
   h1 {
     font-size: 4.5em;
     line-height: 1.1em;
@@ -165,7 +171,16 @@
   }
  
 
+#paginador{
+  display: flex;
+  justify-content: center;
 
+}
+
+
+#paginador > div> button{
+  border-style: none;
+}
 
 }
 

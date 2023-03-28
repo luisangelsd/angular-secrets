@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { EntitySecreto } from '../entitys/entity-secreto';
+import { DtoPaginated } from '../dtos/dto-paginated';
+import { DtoSecret } from '../dtos/dto-secret';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,24 @@ import { EntitySecreto } from '../entitys/entity-secreto';
 export class ServicioDaoApiService {
 
 //============ Variables globales
-private urlEndPoint: String="http://springsecrets-env.eba-b7xdes2k.us-west-2.elasticbeanstalk.com/";
-//private urlEndPoint: String="http://localhost:8080/";
+//private urlEndPoint: String="http://springsecrets-env.eba-b7xdes2k.us-west-2.elasticbeanstalk.com/";
+private urlEndPoint: String="http://localhost:8080/";
 
 
 //============ Listar 
-public listarSecretos():Observable<EntitySecreto[]>{
+public listarSecretos():Observable<DtoSecret[]>{
   return this.http.get(this.urlEndPoint+"listar").pipe(
-    map((respuesta) => respuesta as EntitySecreto[]),
+    map((respuesta) => respuesta as DtoSecret[]),
+    catchError (e=>{
+      return throwError(e);
+    })
+  );
+}
+
+//============ Listar paginado
+public listarPaginadoSecretos(page:number, elements:number):Observable<DtoPaginated>{
+  return this.http.get(this.urlEndPoint+"listar/page/"+page+"/elements/"+elements).pipe(
+    map((respuesta) => respuesta as DtoPaginated),
     catchError (e=>{
       return throwError(e);
     })
@@ -25,9 +36,9 @@ public listarSecretos():Observable<EntitySecreto[]>{
 
 
 
-public listarSecretosPorCategoria(categoria:any):Observable<EntitySecreto[]>{
+public listarSecretosPorCategoria(categoria:any):Observable<DtoSecret[]>{
   return this.http.get(this.urlEndPoint+"listar/"+categoria).pipe(
-    map((respuesta) => respuesta as EntitySecreto[]),
+    map((respuesta) => respuesta as DtoSecret[]),
     catchError (e=>{
       return throwError(e);
     })
@@ -37,9 +48,9 @@ public listarSecretosPorCategoria(categoria:any):Observable<EntitySecreto[]>{
 
 
 //============ Guardar
-public guardarSecreto(entitySecreto:EntitySecreto):Observable<EntitySecreto>{
+public guardarSecreto(entitySecreto:DtoSecret):Observable<DtoSecret>{
   return this.http.post(this.urlEndPoint+"guardar", entitySecreto).pipe(
-    map((respuesta)=> respuesta as EntitySecreto),
+    map((respuesta)=> respuesta as DtoSecret),
     catchError(e=>{
       return throwError(e);
     })
@@ -48,9 +59,9 @@ public guardarSecreto(entitySecreto:EntitySecreto):Observable<EntitySecreto>{
 
 
 //============ Eliminar
-public eliminarSecreto(id:any):Observable <EntitySecreto>{
+public eliminarSecreto(id:any):Observable <DtoSecret>{
   return  this.http.delete(this.urlEndPoint+"eliminar/"+id).pipe(
-    map((respuesta)=> respuesta as EntitySecreto)
+    map((respuesta)=> respuesta as DtoSecret)
     ,catchError(e=>{
       return throwError(e);
     })
@@ -58,9 +69,9 @@ public eliminarSecreto(id:any):Observable <EntitySecreto>{
 }
 
 //============ Buscar
-public buscarSecreto(id:any):Observable<EntitySecreto>{
+public buscarSecreto(id:any):Observable<DtoSecret>{
   return this.http.get(this.urlEndPoint+"buscar/"+id).pipe(
-    map((respuesta)=> respuesta as EntitySecreto)
+    map((respuesta)=> respuesta as DtoSecret)
     ,catchError(e=>{
       return throwError(e);
     })
@@ -70,9 +81,9 @@ public buscarSecreto(id:any):Observable<EntitySecreto>{
 
 
   //============ Editar
-  public actualizarSecreto(entitySecreto: EntitySecreto): Observable<EntitySecreto>{
+  public actualizarSecreto(entitySecreto: DtoSecret): Observable<DtoSecret>{
     return this.http.put(this.urlEndPoint+"editar/"+entitySecreto.id, entitySecreto).pipe(
-      map((respuesta)=> respuesta as EntitySecreto)
+      map((respuesta)=> respuesta as DtoSecret)
       ,catchError(e=>{
         return throwError(e);
       })
