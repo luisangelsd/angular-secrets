@@ -1,0 +1,4 @@
+Este es el proceso que segui para configurar aouth2
+
+1-. Crea un componente Login
+3-. Crea un componente Mi-Peril

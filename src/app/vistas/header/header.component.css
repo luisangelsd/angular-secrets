@@ -10,3 +10,21 @@
 #header > h1{
 font-size: 25px;
 }
+
+#container-menu{
+  display: flex;
+  justify-content: center;
+}
+
+#container-menu > ul{
+  display: flex;
+}
+
+#container-menu > ul > li{
+  list-style: none;
+  padding: 1px 5px;
+}
+
+#container-menu > ul > li>a{
+  color: rgb(20, 20, 20);
+}
