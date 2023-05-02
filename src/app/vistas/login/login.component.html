@@ -1,1 +1,9 @@
-<p>login works!</p>
+<section id="seccion-login">
+    <form>
+        <input [(ngModel)]="dtoUser.username" type="text"  name="username" placeholder="Username" required><br>
+        <input [(ngModel)]="dtoUser.password" type="password"  name="password" placeholder="Password" required><br>
+        <button (click)="login()">Login</button>
+    </form>
+    <br><p>Username:admin | Password: 123</p>
+</section>
+

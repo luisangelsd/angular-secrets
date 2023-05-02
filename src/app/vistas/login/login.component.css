@@ -1,0 +1,8 @@
+#seccion-login{
+    background-color: rgb(243, 243, 243);
+    padding: 5% 25%; 
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

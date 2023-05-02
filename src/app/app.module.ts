@@ -30,8 +30,8 @@ const routes: Routes=[
   imports: [
     BrowserModule,
     FormsModule,
-     HttpClientModule, 
-     ReactiveFormsModule,
+    HttpClientModule, 
+    ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

@@ -1,4 +1,6 @@
 Este es el proceso que segui para configurar aouth2
 
 1-. Crea un componente Login
-3-. Crea un componente Mi-Peril
+2-. Crea un componente Mi-Peril
+3-. Implementamos el servicio oauth2.service.ts
+4-. Implementa Html de Formulario y Implementar su component.ts
