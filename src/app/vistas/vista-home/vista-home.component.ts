@@ -31,8 +31,7 @@ export class VistaHomeComponent implements OnInit {
   public numeroPaginas: number [] = [];
    
 
-
-
+// =============================== METODOS AUXILIARES ===============================
 
   //----- Validar formulario guardar y/o editar
   validarFormulario = new FormGroup({
@@ -43,8 +42,6 @@ export class VistaHomeComponent implements OnInit {
 
   });
 
-  
-
 
 
   //----- Limpiar formulario
@@ -52,11 +49,13 @@ export class VistaHomeComponent implements OnInit {
     this.validarFormulario.reset();
   }
 
+
   //----- Activar formulario editar
   private activarFormularioEditar() {
     this.tituloForm = "¡Estas punto de editar tu secreto!";
     this.tituloBtn = "Editar Secreto";
   }
+
 
   //----- Activar formulario guardar
   public activarFormularioGuardar() {
@@ -65,6 +64,7 @@ export class VistaHomeComponent implements OnInit {
     this.limpiarForm();
   }
 
+  
   //-- Funcion de flecha
   private creandoPaginadoParaRecorrer=(paginas: number | undefined):void =>{
     this.numeroPaginas=[];
@@ -76,6 +76,7 @@ export class VistaHomeComponent implements OnInit {
   }
 
 
+  // =============================== METODOS PRINCIPALES ===============================
 
     //----- Metodo listar secretos por paginando
     public  listarSecretosPaginado(pagina:number): void {
@@ -92,7 +93,9 @@ export class VistaHomeComponent implements OnInit {
           }
         }
       );
-    }//end
+    }
+
+
 
      //----- Metodo listar secretos por filtro
   public filtrarSecretosCategoria(): void {
@@ -123,10 +126,8 @@ export class VistaHomeComponent implements OnInit {
               }
             })
       }
-
-    
-
   }
+
 
   //----- Metodo guardar/editar secreto
   public guardarSecreto(): void {
@@ -184,9 +185,8 @@ export class VistaHomeComponent implements OnInit {
 
     }
 
-
-
   }
+
 
   //----- Metodo eliminar secreto
   public eliminarSecreto(entitySecreto: DtoSecret): void {
@@ -224,7 +224,8 @@ export class VistaHomeComponent implements OnInit {
       }
 
     })
-  }//end
+  }
+
 
   //----- Metodo buscar secreto
   public buscarSecreto(entitySecreto: DtoSecret) {
@@ -249,7 +250,6 @@ export class VistaHomeComponent implements OnInit {
     this.activarFormularioGuardar();
     this.listarSecretosPaginado(0);
   }
-
 
 
 

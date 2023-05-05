@@ -14,7 +14,10 @@ export class HeaderComponent {
   //-- Constructor
   constructor(public servicioAuth : Oauth2Service, private router: Router) { }
 
- 
+
+
+  
+ // =============================== METODOS PRINCIPALES ===============================
    //-- Metodo: Salir
    public salir(){
     this.servicioAuth.eliminarSession();

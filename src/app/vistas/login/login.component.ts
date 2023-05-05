@@ -12,43 +12,47 @@ import { DtoUser } from 'src/app/dtos/dto-user';
 export class LoginComponent {
 
   //-- Variables globales
-  dtoUser: DtoUser = new DtoUser();
+    dtoUser: DtoUser = new DtoUser();
 
-//-- Constructor
-  constructor(private servicioAouth: Oauth2Service, private router: Router) { }
+  //-- Constructor
+    constructor(private servicioAouth: Oauth2Service, private router: Router) { }
 
 
+// =============================== METODOS PRINCIPALES ===============================
 
-  //-- Metodo: Manejo de errores
-  private manejoDeErrores(errores: HttpErrorResponse) {
-    switch (errores.status) {
-      case 400:
-        alert("Datos Invalidos");
-        break;
-        case 401:
-          alert("Error: Porque carece de credenciales válidas de autenticación para el recurso solicitado");
-          break;
-      default:
-        alert("Error status: " + errores.status+" "+errores.error);
-        break;
+    //-- Metodo: Login
+    public login(): void {
+      this.servicioAouth.login(this.dtoUser).subscribe(
+        HttpResponse => {
+          this.servicioAouth.guardarAccessTokenEnSessionStorage(HttpResponse.access_token);//-- Guardamos el usuario en sessionSotage
+          this.servicioAouth.guardarDtoUserEnSessionStorage(HttpResponse.access_token);   //-- Guardamos el token en sessionSotage
+          this.router.navigate(['mi-perfil']);
+        },
+        HttpErrorResponse => {
+          this.manejoDeErrores(HttpErrorResponse);
+        }
+      )
     }
-  }
 
 
-  //-- Metodo: Login
-  public login(): void {
-    this.servicioAouth.login(this.dtoUser).subscribe(
-      HttpResponse => {
-        this.servicioAouth.guardarAccessTokenEnSessionStorage(HttpResponse.access_token);//-- Guardamos el usuario en sessionSotage
-        this.servicioAouth.guardarDtoUserEnSessionStorage(HttpResponse.access_token);   //-- Guardamos el token en sessionSotage
-        this.router.navigate(['mi-perfil']);
-      },
-      HttpErrorResponse => {
-        this.manejoDeErrores(HttpErrorResponse);
+
+
+// =============================== METODOS AUXILIARES ===============================
+  
+    //-- Metodo: Manejo de errores
+    private manejoDeErrores(errores: HttpErrorResponse) {
+      switch (errores.status) {
+        case 400:
+          alert("Datos Invalidos");
+          break;
+          case 401:
+            alert("Error: Porque carece de credenciales válidas de autenticación para el recurso solicitado");
+            break;
+        default:
+          alert("Error status: " + errores.status+" "+errores.error);
+          break;
       }
-    )
-  }
-
+    }
 
 
 
