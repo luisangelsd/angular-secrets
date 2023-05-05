@@ -34,6 +34,9 @@ const routes: Routes=[
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
+  exports:[
+    HeaderComponent
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

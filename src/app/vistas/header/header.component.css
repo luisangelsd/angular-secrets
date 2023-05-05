@@ -24,7 +24,3 @@ font-size: 25px;
   list-style: none;
   padding: 1px 5px;
 }
-
-#container-menu > ul > li>a{
-  color: rgb(20, 20, 20);
-}

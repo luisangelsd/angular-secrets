@@ -4,3 +4,4 @@ Este es el proceso que segui para configurar aouth2
 2-. Crea un componente Mi-Peril
 3-. Implementamos el servicio oauth2.service.ts
 4-. Implementa Html de Formulario y Implementar su component.ts
+5-. Configura un Interceptor para añadir el Tolen a las cabeceras

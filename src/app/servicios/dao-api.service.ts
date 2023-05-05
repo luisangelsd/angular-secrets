@@ -10,8 +10,8 @@ import { DtoSecret } from '../dtos/dto-secret';
 export class ServicioDaoApiService {
 
 //============ Variables globales
-private urlEndPoint: String="http://springsecretsv2-env.eba-mbdgb28c.us-west-2.elasticbeanstalk.com/";
-//private urlEndPoint: String="http://localhost:8080/";
+//private urlEndPoint: String="http://springsecretsv2-env.eba-mbdgb28c.us-west-2.elasticbeanstalk.com/";
+private urlEndPoint: String="http://localhost:8080/";
 
 
 //============ Listar 

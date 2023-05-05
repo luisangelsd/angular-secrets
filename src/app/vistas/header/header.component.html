@@ -7,13 +7,16 @@
     <div id="container-menu">
         <ul>
             <li>
-                <a routerLink="/"> Inicio</a>
+                <a routerLink=""> Inicio</a>
             </li>
-            <li>
+            <li *ngIf="servicioAuth.estaLogeado()==false">
                 <a routerLink="login">Login</a>
             </li>
-            <li>
+            <li *ngIf="servicioAuth.estaLogeado()">
                 <a routerLink="mi-perfil">Mi Perfil</a>
+            </li>
+            <li *ngIf="servicioAuth.estaLogeado()==true">
+                <a (click)="salir()">Salir</a>
             </li>
         </ul>
     </div>

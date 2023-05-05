@@ -13,15 +13,16 @@ export class Oauth2Service {
   //===================== Variables Globales
   private dtoUser: DtoUser | null=null;
 
+
   //===================== Constructor
   constructor(private http: HttpClient) { }
 
 
 
-  //=====================  Metodos Principales
+  //==========================================  Metodos Principales ==========================================
 
 
-  //-- Metodo: Generar Token
+  //-- Metodo: Solicitar un Tokend, cons los datos de acceso de la plataforma y al usuario
   public login(dtoUser: DtoUser):Observable<any> {
 
     const  urlEndPoint:string="http://localhost:8080/oauth/token";
@@ -66,7 +67,7 @@ public guardarAccessTokenEnSessionStorage(access_token: string):void{
   }
 
   // Metodo: Regresamos sus valores si se encuentran en su objeto o en sessionSotage, si no es así regresa un null
-  public get getToken():string | null{
+  public get getAccess_token():string | null{
 
     if (sessionStorage.getItem('access_token')!=null) {
       return sessionStorage.getItem('access_token');
@@ -87,16 +88,16 @@ public guardarAccessTokenEnSessionStorage(access_token: string):void{
   }
 
 
-    //-- Metodo: Verifica si el usuario esta autenticado
-    public estaLogeado():boolean{
-      if (this.getToken==null) {
+    //-- Metodo: Verifica si el usuario esta autenticado y regresa un true o false
+    public estaLogeado(): boolean{
+      if (this.getAccess_token==null) {
         return false;
       }
       return true;
     }
 
 
-    //-- Eliminar sesión
+    //-- Eliminar Sesión
     public eliminarSession():void{
       sessionStorage.clear();
      // sessionStorage.removeItem('usuario'); //-- Alternativa
@@ -114,8 +115,7 @@ public guardarAccessTokenEnSessionStorage(access_token: string):void{
 
       
   //-- Metodo: PENDIENTE**
-  public tokenExpirado():boolean{
-    
+  public tokenExpirado():boolean{   
     return true;
   }
 

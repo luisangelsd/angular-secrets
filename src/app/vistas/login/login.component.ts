@@ -9,19 +9,14 @@ import { DtoUser } from 'src/app/dtos/dto-user';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   //-- Variables globales
   dtoUser: DtoUser = new DtoUser();
 
-
 //-- Constructor
   constructor(private servicioAouth: Oauth2Service, private router: Router) { }
 
- //-- Arranque 
-  ngOnInit(): void {
-    this.rederigirSiEstaLogeado();
-  }
 
 
   //-- Metodo: Manejo de errores
@@ -46,8 +41,6 @@ export class LoginComponent implements OnInit {
       HttpResponse => {
         this.servicioAouth.guardarAccessTokenEnSessionStorage(HttpResponse.access_token);//-- Guardamos el usuario en sessionSotage
         this.servicioAouth.guardarDtoUserEnSessionStorage(HttpResponse.access_token);   //-- Guardamos el token en sessionSotage
-        this.rederigirSiEstaLogeado();
-        alert("Estas Logeado");
       },
       HttpErrorResponse => {
         this.manejoDeErrores(HttpErrorResponse);
@@ -58,10 +51,4 @@ export class LoginComponent implements OnInit {
 
 
 
-  //==== Metodos Auxiliares
-  private rederigirSiEstaLogeado(): void {
-    if (this.servicioAouth.estaLogeado()) {
-      this.router.navigate(['mi-perfil']);
-    }
-  }
 }
