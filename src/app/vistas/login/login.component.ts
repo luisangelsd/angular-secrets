@@ -41,6 +41,7 @@ export class LoginComponent {
       HttpResponse => {
         this.servicioAouth.guardarAccessTokenEnSessionStorage(HttpResponse.access_token);//-- Guardamos el usuario en sessionSotage
         this.servicioAouth.guardarDtoUserEnSessionStorage(HttpResponse.access_token);   //-- Guardamos el token en sessionSotage
+        this.router.navigate(['mi-perfil']);
       },
       HttpErrorResponse => {
         this.manejoDeErrores(HttpErrorResponse);
