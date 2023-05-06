@@ -4,6 +4,8 @@ import swal from 'sweetalert2';
 import { ServicioDaoApiService } from '../../servicios/dao-api.service';
 import { EntityListarFiltro } from '../../dtos/entity-listar-filtro';
 import { DtoSecret } from '../../dtos/dto-secret';
+import { Oauth2Service } from 'src/app/servicios/oauth2.service';
+import { EntitySecreto } from 'src/app/dtos/entity-secreto';
 
 @Component({
   selector: 'app-vista-home',
@@ -15,7 +17,8 @@ export class VistaHomeComponent implements OnInit {
 
   //----- Constructor
   constructor(
-    private servicioDao: ServicioDaoApiService
+    private servicioDao: ServicioDaoApiService,
+    public oauth2Service:Oauth2Service
   ) { }
 
    //----- Variables globales
@@ -246,6 +249,38 @@ export class VistaHomeComponent implements OnInit {
 
  
 
+  //----- Metodo eliminar secreto como admin
+  public eliminarSecretoComoAdmin(entitySecreto:EntitySecreto): void {
+    swal.fire({
+      title: '¿Estas seguro/a?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, ¡Eliminalo!',
+      cancelButtonText: 'No, ¡Cancelar!'
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+        this.servicioDao.eliminarSecretoComoAdmin(entitySecreto.id).subscribe(respuesta => {
+          swal.fire("¡SECRETO ELIMINADO!", "", "success");
+          this.listarSecretosPaginado(0);
+        },
+          err => {
+            switch (err.status) {
+              default:
+                swal.fire("¡ERROR AL ELIMINAR EL SECRETOo!", err.error.error, "error");
+                break;
+            }
+          }
+        );
+
+      }
+
+    })
+  }
   ngOnInit(): void {
     this.activarFormularioGuardar();
     this.listarSecretosPaginado(0);

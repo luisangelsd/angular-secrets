@@ -12,6 +12,7 @@ export class ServicioDaoApiService {
 //============ Variables globales
 //private urlEndPoint: String="http://springsecretsv2-env.eba-mbdgb28c.us-west-2.elasticbeanstalk.com/";
 private urlEndPoint: String="http://localhost:8080/";
+private urlEndPointAdmin: String="http://localhost:8080/adm/";
 
 
 //============ Listar 
@@ -90,6 +91,16 @@ public buscarSecreto(id:any):Observable<DtoSecret>{
     )
   }
 
+
+  //============ EliminarAdmin
+public eliminarSecretoComoAdmin(id:any):Observable <DtoSecret>{
+  return  this.http.delete(this.urlEndPointAdmin+"eliminar/"+id).pipe(
+    map((respuesta)=> respuesta as DtoSecret)
+    ,catchError(e=>{
+      return throwError(e);
+    })
+  )
+}
 
 
   //============ Importaciónes

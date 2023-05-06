@@ -133,11 +133,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let variable of listaSecretos">
-          <td>{{variable.id}}</td>
-          <td>{{variable.secreto}}</td>
-          <td>{{variable.categoria}} </td>
-          <td>{{variable.fCreacion}}</td>
+        <tr *ngFor="let secreto of listaSecretos">
+          <td>{{secreto.id}}</td>
+          <td>{{secreto.secreto}}</td>
+          <td>{{secreto.categoria}} </td>
+          <td>{{secreto.fCreacion}}</td>
+          <td *ngIf="oauth2Service.estaLogeado()">
+            <button >Editar</button>
+            <button (click)="eliminarSecretoComoAdmin(secreto)">Eliminar</button>
+          </td>
         </tr>
       </tbody>
     </table>
