@@ -6,6 +6,7 @@ import { EntityListarFiltro } from '../../dtos/entity-listar-filtro';
 import { DtoSecret } from '../../dtos/dto-secret';
 import { Oauth2Service } from 'src/app/servicios/oauth2.service';
 import { EntitySecreto } from 'src/app/dtos/entity-secreto';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-vista-home',
@@ -18,11 +19,11 @@ export class VistaHomeComponent implements OnInit {
   //----- Constructor
   constructor(
     private servicioDao: ServicioDaoApiService,
-    public oauth2Service:Oauth2Service
+    public oauth2Service: Oauth2Service
   ) { }
 
-   //----- Variables globales
-  public listaSecretos: DtoSecret[]=[];
+  //----- Variables globales
+  public listaSecretos: DtoSecret[] = [];
   public entitySecreto: DtoSecret = new DtoSecret();
   public entitySecretoGuardado: DtoSecret = new DtoSecret();
   public entityListarFiltro: EntityListarFiltro = new EntityListarFiltro();
@@ -31,10 +32,10 @@ export class VistaHomeComponent implements OnInit {
   public tituloBtn: String = "";
   public tituloForm: String = "";
   public puedeEditarSecreto: Boolean = false;
-  public numeroPaginas: number [] = [];
-   
+  public numeroPaginas: number[] = [];
 
-// =============================== METODOS AUXILIARES ===============================
+
+  // =============================== METODOS AUXILIARES ===============================
 
   //----- Validar formulario guardar y/o editar
   validarFormulario = new FormGroup({
@@ -67,68 +68,67 @@ export class VistaHomeComponent implements OnInit {
     this.limpiarForm();
   }
 
-  
+  //-- Metodo: Manejo de errores
+  private manejoDeErrores(error: HttpErrorResponse) {
+    switch (error.status) {
+      case 401:
+        swal.fire("¡ERROR AL CARGAR!", error.error, "error");
+        break;
+      default:
+        swal.fire("¡ERROR AL CARGAR!", error.error, "error");
+        break;
+
+    }
+  }
+
+
+
   //-- Funcion de flecha
-  private creandoPaginadoParaRecorrer=(paginas: number | undefined):void =>{
-    this.numeroPaginas=[];
-    if(paginas!=undefined){
+  private creandoPaginadoParaRecorrer = (paginas: number | undefined): void => {
+    this.numeroPaginas = [];
+    if (paginas != undefined) {
       for (let i = 0; i < paginas; i++) {
         this.numeroPaginas.push(i);
       }
-    }  
+    }
   }
 
 
   // =============================== METODOS PRINCIPALES ===============================
 
-    //----- Metodo listar secretos por paginando
-    public  listarSecretosPaginado(pagina:number): void {
-      this.servicioDao.listarPaginadoSecretos(pagina, 10 ).subscribe(respuesta => {
-        this.listaSecretos = respuesta.content;
-        this.creandoPaginadoParaRecorrer(respuesta.totalPages);
-        
+  //----- Metodo listar secretos por paginando
+  public listarSecretosPaginado(pagina: number): void {
+    this.servicioDao.listarPaginadoSecretos(pagina, 10).subscribe(
+      HttpResponse => {
+        this.listaSecretos = HttpResponse.content;
+        this.creandoPaginadoParaRecorrer(HttpResponse.totalPages);
+
       },
-        err => {
-          switch (err.status) {
-            default:
-              swal.fire("¡ERROR AL CARGAR!", err.error + "Lo sentimos, ha ocurrido un error al cargar los secretos, recarga la página o vuelve a intentar más tarde", "error");
-              break;
-          }
-        }
-      );
-    }
+      HttpErrorResponse => {
+        this.manejoDeErrores(HttpErrorResponse);
+      }
+    );
+  }
 
 
 
-     //----- Metodo listar secretos por filtro
+  //----- Metodo listar secretos por filtro
   public filtrarSecretosCategoria(): void {
 
-    let categoria: String=  (document.getElementById('filtro-buscar-por-categoria') as HTMLInputElement).value;
+    let categoria: String = (document.getElementById('filtro-buscar-por-categoria') as HTMLInputElement).value;
 
-   
-
-      if (categoria=="Todos") {
-        this.listarSecretosPaginado(0);
-      } else {
-         this.servicioDao.listarSecretosPorCategoria(categoria).subscribe(respuesta => {
-                 this.listaSecretos = respuesta;  
-                 this.numeroPaginas=[];
-          },
-            err => {
-              switch (err.status) {
-
-                case 404:
-                  this.listaSecretos=[];
-                  this.numeroPaginas=[];
-
-                  break;
-
-                default:
-                  swal.fire("¡ERROR AL LISTAR LOS SECRETOS!", "Lo sentimos, ha ocurrido un error al buscar estos secretos, recarga la página o vuelve a intentar más tarde", "error");
-                  break;
-              }
-            })
-      }
+    if (categoria == "Todos") {
+      this.listarSecretosPaginado(0);
+    } else {
+      this.servicioDao.listarSecretosPorCategoria(categoria).subscribe(
+        HttpResponse => {
+          this.listaSecretos = HttpResponse;
+          this.numeroPaginas = [];
+        },
+        HttpErrorResponse => {
+          this.manejoDeErrores(HttpErrorResponse);
+        })
+    }
   }
 
 
@@ -139,49 +139,37 @@ export class VistaHomeComponent implements OnInit {
 
       if (!this.entitySecreto.id) {
 
-        this.servicioDao.guardarSecreto(this.entitySecreto).subscribe(respuesta => {
-          swal.fire("¡SECRETO GUARDADO!", "", "success");
-          this.entitySecretoGuardado = respuesta;
-          this.puedeEditarSecreto = true;
+        this.servicioDao.guardarSecreto(this.entitySecreto).subscribe(
+          HttpResponse => {
+            swal.fire("¡SECRETO GUARDADO!", "", "success");
+            this.entitySecretoGuardado = HttpResponse;
+            this.puedeEditarSecreto = true;
 
-          this.limpiarForm();
-          this.listarSecretosPaginado(0);
-          this.activarFormularioGuardar();
-        },
-          err => {
-
-            switch (err.status) {
-              default:
-                swal.fire("¡ERROR AL GUARDAR!", "Lo sentimos, ha ocurrido un error, intentalo nuevamente", "error");
-                break;
-            }
-
+            this.limpiarForm();
+            this.listarSecretosPaginado(0);
+            this.activarFormularioGuardar();
+          },
+          HttpErrorResponse => {
+            this.manejoDeErrores(HttpErrorResponse);
           });
 
 
       } else {
 
-        this.servicioDao.actualizarSecreto(this.entitySecreto).subscribe(respuesta => {
-
-          swal.fire("¡SECRETO ACTUALIZADO!", "", "success");
-          this.entitySecretoGuardado = respuesta;
-          this.puedeEditarSecreto = true;
-          this.limpiarForm();
-          this.listarSecretosPaginado(0);
-          this.activarFormularioGuardar();
-        },
-          err => {
-
-            switch (err.status) {
-              default:
-                swal.fire("¡ERROR AL ACTUALIZAR!", "Lo sentimos, ha ocurrido un error, intentalo nuevamente" + err.status, "error");
-                break;
-            }
-
+        this.servicioDao.actualizarSecreto(this.entitySecreto).subscribe(
+          HttpResponse => {
+            swal.fire("¡SECRETO ACTUALIZADO!", "", "success");
+            this.entitySecretoGuardado = HttpResponse;
+            this.puedeEditarSecreto = true;
+            this.limpiarForm();
+            this.listarSecretosPaginado(0);
+            this.activarFormularioGuardar();
+          },
+          HttpErrorResponse => {
+            this.manejoDeErrores(HttpErrorResponse);
           });
 
       }
-
       this.mensajeValidarForm = "";
     } else {
       this.mensajeValidarForm = "*Rellena todos los campos";
@@ -206,21 +194,18 @@ export class VistaHomeComponent implements OnInit {
 
       if (result.isConfirmed) {
 
-        this.servicioDao.eliminarSecreto(entitySecreto.id).subscribe(respuesta => {
-          swal.fire("¡SECRETO ELIMINADO!", "", "success");
+        this.servicioDao.eliminarSecreto(entitySecreto.id).subscribe(
+          HttpResponse => {
+            swal.fire("¡SECRETO ELIMINADO!", "", "success");
 
-          if (this.entitySecretoGuardado == this.entitySecretoGuardado) {
-            this.puedeEditarSecreto = false;
-          }
-
-          this.listarSecretosPaginado(0);
-        },
-          err => {
-            switch (err.status) {
-              default:
-                swal.fire("¡ERROR AL ELIMINAR EL SECRETO!", "Lo sentimos, ha ocurrido un error al eliminar este secreto, recarga la página o vuelve a intentar más tarde", "error");
-                break;
+            if (this.entitySecretoGuardado == this.entitySecretoGuardado) {
+              this.puedeEditarSecreto = false;
             }
+
+            this.listarSecretosPaginado(0);
+          },
+          HttpErrorResponse => {
+            this.manejoDeErrores(HttpErrorResponse);
           }
         );
 
@@ -233,24 +218,20 @@ export class VistaHomeComponent implements OnInit {
   //----- Metodo buscar secreto
   public buscarSecreto(entitySecreto: DtoSecret) {
     this.servicioDao.buscarSecreto(entitySecreto.id).subscribe(
-    respuesta => {
-      this.entitySecreto = respuesta;
-      this.activarFormularioEditar();
-      this.listarSecretosPaginado(0);
-      document.getElementById("btnConfesar")?.click();
-    }, err => {
-      switch (err.status) {
-        default:
-          swal.fire("¡ERROR AL BUSCAR EL SECRETO!", "Lo sentimos, ha ocurrido un error al buscar este secreto, recarga la página o vuelve a intentar más tarde", "error");
-          break;
-      }
-    })
+      HttpResponse => {
+        this.entitySecreto = HttpResponse;
+        this.activarFormularioEditar();
+        this.listarSecretosPaginado(0);
+        document.getElementById("btnConfesar")?.click();
+      }, HttpErrorResponse => {
+        this.manejoDeErrores(HttpErrorResponse);
+      })
   }
 
- 
+
 
   //----- Metodo eliminar secreto como admin
-  public eliminarSecretoComoAdmin(entitySecreto:EntitySecreto): void {
+  public eliminarSecretoComoAdmin(entitySecreto: EntitySecreto): void {
     swal.fire({
       title: '¿Estas seguro/a?',
       text: "",
@@ -264,16 +245,13 @@ export class VistaHomeComponent implements OnInit {
 
       if (result.isConfirmed) {
 
-        this.servicioDao.eliminarSecretoComoAdmin(entitySecreto.id).subscribe(respuesta => {
-          swal.fire("¡SECRETO ELIMINADO!", "", "success");
-          this.listarSecretosPaginado(0);
+        this.servicioDao.eliminarSecretoComoAdmin(entitySecreto.id).subscribe(
+          HttpResponse => {
+            swal.fire("¡SECRETO ELIMINADO!", "", "success");
+            this.listarSecretosPaginado(0);
         },
-          err => {
-            switch (err.status) {
-              default:
-                swal.fire("¡ERROR AL ELIMINAR EL SECRETOo!", err.error.error, "error");
-                break;
-            }
+        HttpErrorResponse => {
+            this.manejoDeErrores(HttpErrorResponse);
           }
         );
 
@@ -281,11 +259,12 @@ export class VistaHomeComponent implements OnInit {
 
     })
   }
+
+
   ngOnInit(): void {
     this.activarFormularioGuardar();
     this.listarSecretosPaginado(0);
   }
-
 
 
 }
