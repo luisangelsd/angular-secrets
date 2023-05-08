@@ -131,7 +131,12 @@
     border-radius: 4px;
   }
 
+/*CONTENEDOR - FORM ADMIN*/
+  #contenedor-form-admin {
+    background-color: #fff;
+    padding: 2% 30% 2% 30%;
 
+  }
 
 
   /*CONTENEDOR 3 - HIJOS*/

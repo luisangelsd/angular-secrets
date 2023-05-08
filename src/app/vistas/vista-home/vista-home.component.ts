@@ -25,9 +25,12 @@ export class VistaHomeComponent implements OnInit {
   //----- Variables globales
   public listaSecretos: DtoSecret[] = [];
   public entitySecreto: DtoSecret = new DtoSecret();
+  public entitySecretoAdmin: DtoSecret = new DtoSecret();
   public entitySecretoGuardado: DtoSecret = new DtoSecret();
   public entityListarFiltro: EntityListarFiltro = new EntityListarFiltro();
 
+
+  //------ Configuraciónes: Formulario y variables para usuarios
   public mensajeValidarForm: String = "";
   public tituloBtn: String = "";
   public tituloForm: String = "";
@@ -35,10 +38,8 @@ export class VistaHomeComponent implements OnInit {
   public numeroPaginas: number[] = [];
 
 
-  // =============================== METODOS AUXILIARES ===============================
-
-  //----- Validar formulario guardar y/o editar
-  validarFormulario = new FormGroup({
+    // ======= Configuraciónes: Formulario y variables para user =======
+   validarFormulario = new FormGroup({
     fg_secreto: new FormControl("", [Validators.required]),
     fg_categoria: new FormControl("", Validators.required),
     fg_id: new FormControl(),
@@ -46,13 +47,10 @@ export class VistaHomeComponent implements OnInit {
 
   });
 
-
-
-  //----- Limpiar formulario
+  //-- Limpiar formulario: User
   private limpiarForm(): void {
     this.validarFormulario.reset();
   }
-
 
   //----- Activar formulario editar
   private activarFormularioEditar() {
@@ -68,30 +66,33 @@ export class VistaHomeComponent implements OnInit {
     this.limpiarForm();
   }
 
-  //-- Metodo: Manejo de errores
-  private manejoDeErrores(error: HttpErrorResponse) {
-    switch (error.status) {
-      case 401:
-        swal.fire("¡ERROR AL CARGAR!", error.error, "error");
-        break;
-      default:
-        swal.fire("¡ERROR AL CARGAR!", error.error, "error");
-        break;
 
-    }
-  }
+  //======= Configuraciónes: Formulario y variables para admin =======
+  public isActivecontenedorFormAdmin:boolean=false;
+  validarFormularioAdmin=new FormGroup({
+    fa_secreto: new FormControl('',[Validators.required]),
+    fa_categoria: new FormControl('',[Validators.required]),
+    fa_fecha:new FormControl('',[Validators.required])
+   });
 
-
-
-  //-- Funcion de flecha
-  private creandoPaginadoParaRecorrer = (paginas: number | undefined): void => {
-    this.numeroPaginas = [];
-    if (paginas != undefined) {
-      for (let i = 0; i < paginas; i++) {
-        this.numeroPaginas.push(i);
+   public activarContenedorFormAdmin():void{
+      let seccionFormUser = document.getElementById('contenedor2');
+      if (seccionFormUser!=null) {
+        seccionFormUser.style.display='none';
       }
+      this.isActivecontenedorFormAdmin=true;
+   }
+
+   public desactivarContenedorFormAdmin():void{
+    let seccionFormUser = document.getElementById('contenedor2');
+    if (seccionFormUser!=null) {
+      seccionFormUser.style.display='block';
     }
-  }
+    this.isActivecontenedorFormAdmin=false;
+   }
+
+
+
 
 
   // =============================== METODOS PRINCIPALES ===============================
@@ -178,6 +179,27 @@ export class VistaHomeComponent implements OnInit {
 
   }
 
+  public editarSecretoAdmin():void{
+
+
+    if (this.validarFormularioAdmin.valid && this.entitySecretoAdmin.id)  { 
+        this.servicioDao.actualizarSecretoAdmin(this.entitySecretoAdmin).subscribe(
+          HttpResponse => {
+            swal.fire("¡SECRETO ACTUALIZADO!", "", "success");
+            this.listarSecretosPaginado(0);
+
+          },
+          HttpErrorResponse => {
+            this.manejoDeErrores(HttpErrorResponse);
+          });
+      this.mensajeValidarForm = "";
+
+    } else {
+      this.mensajeValidarForm = "*Rellena todos los campos";
+    }
+
+  }
+
 
   //----- Metodo eliminar secreto
   public eliminarSecreto(entitySecreto: DtoSecret): void {
@@ -215,8 +237,8 @@ export class VistaHomeComponent implements OnInit {
   }
 
 
-  //----- Metodo buscar secreto
-  public buscarSecreto(entitySecreto: DtoSecret) {
+  //----- Metodo buscar secreto: User
+  public buscarSecreto(entitySecreto: DtoSecret):void {
     this.servicioDao.buscarSecreto(entitySecreto.id).subscribe(
       HttpResponse => {
         this.entitySecreto = HttpResponse;
@@ -228,6 +250,18 @@ export class VistaHomeComponent implements OnInit {
       })
   }
 
+    //----- Metodo buscar secreto: Admin
+    public buscarSecretoAdmin(entitySecreto: DtoSecret):void {
+      this.servicioDao.buscarSecreto(entitySecreto.id).subscribe(
+        HttpResponse => {
+          this.entitySecretoAdmin = HttpResponse;
+          this.activarContenedorFormAdmin();
+          this.listarSecretosPaginado(0);
+          document.getElementById("btnConfesar")?.click();
+        }, HttpErrorResponse => {
+          this.manejoDeErrores(HttpErrorResponse);
+        })
+    }
 
 
   //----- Metodo eliminar secreto como admin
@@ -265,6 +299,37 @@ export class VistaHomeComponent implements OnInit {
     this.activarFormularioGuardar();
     this.listarSecretosPaginado(0);
   }
+
+  
+  // =============================== METODOS AUXILIARES ===============================
+
+
+
+  //-- Metodo: Manejo de errores
+  private manejoDeErrores(httpError: HttpErrorResponse) {
+    switch (httpError.status) {
+      case 401:
+        swal.fire("¡ERROR 401 AL CARGAR!", httpError.error.error, "error");
+        break;
+      default:
+        swal.fire("¡ERROR AL CARGAR!", httpError.error.error, "error");
+        break;
+
+    }
+  }
+
+
+
+  //-- Funcion de flecha
+  private creandoPaginadoParaRecorrer = (paginas: number | undefined): void => {
+    this.numeroPaginas = [];
+    if (paginas != undefined) {
+      for (let i = 0; i < paginas; i++) {
+        this.numeroPaginas.push(i);
+      }
+    }
+  }
+
 
 
 }

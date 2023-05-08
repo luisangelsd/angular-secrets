@@ -14,17 +14,17 @@
 
 
 
+
 <!--  SECCIÓN: REGISTRAR/EDITAR SECRETO  -->
 <a id="anclaje-nuevo-secreto"></a>
 <div id="contenedor2">
-
 
   <div *ngIf="mensajeValidarForm" class="alert alert-danger" role="alert">
       <p>{{mensajeValidarForm}}</p>
   </div>
 
 
-  <!--Formulario Registro/Editar-->
+  <!--Formulario Registro/Editar - USER -->
   <h2><b>{{tituloForm}}</b></h2>
   <form id="formulario-envio" (ngSubmit)="guardarSecreto()" [formGroup]="validarFormulario">
 
@@ -53,10 +53,46 @@
 
     <!-- Sección: Activa solo para Editar -->
     <button *ngIf="entitySecreto.id" type="button" (click)="activarFormularioGuardar()" id="form-cancelar">Cancelar</button>
-
   </form>
 </div>
 
+
+
+
+<!-- ////////////////////////////////////////////////////////////////////////--->
+
+<div id="contenedor-form-admin" *ngIf="isActivecontenedorFormAdmin==true">
+
+  <!--Formulario Registro/Editar - ADMIN -->
+  <h2><b>Editar como Admin</b></h2>
+  <form id="formulario-envio" (ngSubmit)="editarSecretoAdmin()" [formGroup]="validarFormularioAdmin">
+
+    <!--Activo solo para Editar -->
+    <div *ngIf="entitySecretoAdmin.id"><br>
+      <input type="number" formControlName="fa_id" [(ngModel)]="entitySecreto.id" name="id" id="form-id" hidden>
+      <label><b>ID: </b>{{entitySecretoAdmin.id}} </label><br>
+    </div>
+    
+    <p>Escribe Aquí: (500 Caracteres como máximo sin emojics)</p>
+    <textarea formControlName="fa_secreto" [(ngModel)]="entitySecretoAdmin.secreto" name="secreto" maxlength="500" 
+      id="form-secreto"></textarea><br>
+    <p>Elige una Categoría:</p>
+    <select formControlName="fa_categoria" [(ngModel)]="entitySecretoAdmin.categoria" name="categoria" id="form-categoria">
+      <option value="Mio"> Mio</option>
+      <option value="Familia">Familia</option>
+      <option value="Trabajo">Trabajo</option>
+      <option value="Amigos">Amigos</option>
+      <option value="Pareja">Pareja</option>
+      <option value="Conocido">Conocido</option>
+    </select><br>
+    <p>Fecha Creacion</p>
+    <input type="date" formControlName="fa_fecha" [(ngModel)]="entitySecretoAdmin.fCreacion" id="form-fecha"><br><br>
+    <input type="submit" value="Actualizar" id="form-enviar">
+    <button type="button" class="btn btn-danger" (click)="desactivarContenedorFormAdmin()" >Cancelar</button>
+  </form>
+</div>
+
+<!-- ////////////////////////////////////////////////////////////////////////--->
 
 
 
@@ -139,8 +175,8 @@
           <td>{{secreto.categoria}} </td>
           <td>{{secreto.fCreacion}}</td>
           <td *ngIf="oauth2Service.estaLogeado()">
-            <button >Editar</button>
-            <button (click)="eliminarSecretoComoAdmin(secreto)">Eliminar</button>
+            <button type="button"  class="btn btn-warning" (click)="buscarSecretoAdmin(secreto)">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="eliminarSecretoComoAdmin(secreto)">Eliminar</button>
           </td>
         </tr>
       </tbody>
