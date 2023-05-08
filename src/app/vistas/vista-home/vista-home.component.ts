@@ -30,7 +30,7 @@ export class VistaHomeComponent implements OnInit {
   public entityListarFiltro: EntityListarFiltro = new EntityListarFiltro();
 
 
-  //------ Configuraciónes: Formulario y variables para usuarios
+  // =======  Configuraciónes: Formulario y variables para usuarios ======= 
   public mensajeValidarForm: String = "";
   public tituloBtn: String = "";
   public tituloForm: String = "";
@@ -38,7 +38,7 @@ export class VistaHomeComponent implements OnInit {
   public numeroPaginas: number[] = [];
 
 
-    // ======= Configuraciónes: Formulario y variables para user =======
+    // ----- Validación Formulario
    validarFormulario = new FormGroup({
     fg_secreto: new FormControl("", [Validators.required]),
     fg_categoria: new FormControl("", Validators.required),
@@ -67,6 +67,7 @@ export class VistaHomeComponent implements OnInit {
   }
 
 
+  
   //======= Configuraciónes: Formulario y variables para admin =======
   public isActivecontenedorFormAdmin:boolean=false;
   validarFormularioAdmin=new FormGroup({
