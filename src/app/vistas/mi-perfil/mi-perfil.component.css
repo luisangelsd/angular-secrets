@@ -9,3 +9,10 @@
     align-items: center;
     text-align: center;
 }
+
+#img-perfil{
+    width: 200px;
+    height: 200px;
+    border-radius: 60%;
+    object-fit:cover;
+}

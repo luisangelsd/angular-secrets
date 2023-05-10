@@ -1,5 +1,7 @@
-<section id="page-mi-perfil" >
-    <h1>Mi Perfil</h1><br><br>
+<section id="page-mi-perfil" *ngIf="dtoUser!null" >
+  <img src="http://localhost:8080/adm/imagen-perfil/show/{{dtoUser.urlFoto}}" id="img-perfil">
+  <button (click)="eliminarFoto()" class="btn btn-outline-secondary" *ngIf="dtoUser.urlFoto!='mi-perfil.png'">Eliminar Foto</button><br>
+    <h1>Mi Perfil</h1>
         <table class="table" *ngIf="dtoUser!=null">
             <thead>
               <tr>
@@ -14,8 +16,14 @@
                 <th> {{dtoUser.username}}</th>
                 <td>***</td>
                 <td>{{dtoUser.enabled}}</td>
-                <td>{{dtoUser.roles}}</td>
+                <td>
+                  {{dtoUser.roles[0].nombre}}
+                </td>
               </tr>
             </tbody>
           </table>
+          <div class="input-group">
+            <input (change)="validarFormFotoPerfil($event)" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <button (click)="subirFoto()" class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Subir Foto</button>
+          </div> 
 </section>

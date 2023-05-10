@@ -4,4 +4,6 @@ export class DtoUser {
     public password: string="";
     public enabled: boolean=false;
     public roles:string[]=[];
+    public urlFoto:String="";
 }
+

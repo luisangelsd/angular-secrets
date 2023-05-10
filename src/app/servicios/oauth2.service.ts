@@ -88,6 +88,7 @@ public guardarAccessTokenEnSessionStorage(access_token: string):void{
   }
 
 
+
     //-- Metodo: Verifica si el usuario esta autenticado y regresa un true o false
     public estaLogeado(): boolean{
       if (this.getAccess_token==null) {

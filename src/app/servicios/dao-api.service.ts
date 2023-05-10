@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { DtoPaginated } from '../dtos/dto-paginated';
 import { DtoSecret } from '../dtos/dto-secret';
+import { DtoUser } from '../dtos/dto-user';
 
 @Injectable({
   providedIn: 'root'
@@ -94,9 +95,43 @@ public buscarSecreto(id:any):Observable<DtoSecret>{
   }
 
 
+  
 
 
-// =========================== METODOS ADMIN ===========================
+// =========================== METODOS AUTH2 ===========================
+
+//============ Obtener usuario: Admin/User
+public buscarUsuarioPorUsername(username: string): Observable<DtoUser>{
+  return this.http.get(this.urlEndPointAdmin+"ver/usuario/"+username).pipe(
+    map(respuesta => respuesta as DtoUser)
+  ,catchError(e=>{
+    return throwError(e);
+  })
+  )
+}
+
+ //============ Eliminar Foto: Admin/User
+ public eliminarImagenPerfilPorUsername(username: string){
+  return this.http.delete(this.urlEndPointAdmin+"imagen-perfil/eliminar/"+username).pipe(
+    map(respuesta=>{
+    }),catchError(e=> {
+      return throwError(e);
+    })
+  ) 
+}
+
+ //============ Actualizar Foto: Admin/User
+ public updateImagenPerfil(archivo: any, username: string){
+  let fdata=new FormData();         //-- Para poder manipular el archivo
+  fdata.append('archivo', archivo); //-- Asignamos nombre del parametro y su valor
+  fdata.append('username', username); //-- Asignamos nombre del parametro y su valor
+  return this.http.post(this.urlEndPointAdmin+"imagen-perfil/upload/", fdata).pipe( //-- Enviamos la informacion
+    map(respuesta=>{
+    }),catchError(e=> {
+      return throwError(e);
+    })
+  ) 
+}
 
 
   //============ Editar: Admin
@@ -118,6 +153,8 @@ public eliminarSecretoComoAdmin(id:any):Observable <DtoSecret>{
     })
   )
 }
+
+
 
 
   //============ Importaciónes
