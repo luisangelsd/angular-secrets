@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
-import { Oauth2Service } from 'src/app/servicios/oauth2.service';
+import { Oauth2Service } from 'src/app/servicios/api-secrets-oauth2.service';
 import { DtoUser } from 'src/app/dtos/dto-user';
-import { ServicioDaoApiService } from '../../servicios/dao-api.service';
+import { ServicioDaoApiService } from '../../servicios/api-secrets.service';
 import { HttpErrorResponse, HttpRequest, HttpResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { DtoPaginated } from 'src/app/dtos/dto-paginated';
@@ -22,19 +22,33 @@ export class MiPerfilComponent implements OnInit {
   archivoFoto: File | null=null;
 
   public subirFoto():void{
-    this.serviceApi.updateImagenPerfil(this.archivoFoto, this.dtoUser.username).subscribe(
-      HttpRequest =>{
-        this.buscarUsuario();
-        Swal.fire("¡Foto Actualizada!","","success");
-      },
-      HttpErrorResponse=>{
-        Swal.fire("Error al  Actualizar Imagen",HttpErrorResponse,"error");
-      }
-    )
+
+    //-- Validamos que haya seleccionado un archivo
+    if (!this.archivoFoto) {
+      Swal.fire("Selecciona un Archivo","","error");
+    }else{
+
+      this.serviceApi.updateImagenPerfil(this.archivoFoto, this.dtoUser.username).subscribe(
+        HttpRequest =>{
+          this.buscarUsuario();
+          Swal.fire("¡Foto Actualizada!","","success");
+        },
+        HttpErrorResponse=>{
+          Swal.fire("Error al  Actualizar Imagen",HttpErrorResponse,"error");
+        }
+      )
+
+    }
   }
 
-    validarFormFotoPerfil( event:any):void{   
+
+    validarFormFotoPerfil( event:any):void{ 
         this.archivoFoto = event.target.files[0];
+        //-- Validamos que no sea null
+        if (this.archivoFoto != null && this.archivoFoto.type.indexOf('image')<0) { //-- Validamos que sea una iamgen
+           this.archivoFoto=null;          
+           Swal.fire("Solo puedes seleccionar fotos","","error");
+         }
     }
 
 
@@ -68,6 +82,7 @@ export class MiPerfilComponent implements OnInit {
     private oauth2Service: Oauth2Service,
     private serviceApi: ServicioDaoApiService
   ){}
+
 
   ngOnInit(): void {
     this.dtoUserSession = this.oauth2Service.getDtoUser;

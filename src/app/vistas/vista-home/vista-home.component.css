@@ -94,38 +94,16 @@
 
   }
 
-  #form-enviar {
-
-    background-color: #ffc145;
-    color: #1a1a1a;
-    padding: 12px 50px;
-    border-radius: 5px;
-    border-style: none;
-    margin: 1%;
-  }
-
-  #form-cancelar {
-
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: #fff;
-    padding: 12px 50px;
-    border-radius: 5px;
-    border-style: none;
-    margin: 1%;
-  }
 
 
-
-  #form-secreto {
-
+  .form-secreto-contenido {
     height: 150px;
     width: 100%;
     border-radius: 4px;
   }
 
 
-  #form-categoria {
+  .form-secreto-categoria {
     height: 40px;
     width: 100%;
     border-radius: 4px;

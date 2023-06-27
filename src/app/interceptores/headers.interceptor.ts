@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { Oauth2Service } from '../servicios/oauth2.service';
+import { Oauth2Service } from '../servicios/api-secrets-oauth2.service';
 
 @Injectable()//-- Le cambiamos el nombre a nuestra classe
 export class HeadersInterceptor implements HttpInterceptor {

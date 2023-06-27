@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
-import { ServicioDaoApiService } from '../../servicios/dao-api.service';
+import { ServicioDaoApiService } from '../../servicios/api-secrets.service';
 import { EntityListarFiltro } from '../../dtos/entity-listar-filtro';
 import { DtoSecret } from '../../dtos/dto-secret';
-import { Oauth2Service } from 'src/app/servicios/oauth2.service';
+import { Oauth2Service } from 'src/app/servicios/api-secrets-oauth2.service';
 import { EntitySecreto } from 'src/app/dtos/entity-secreto';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { DtoCategoria } from 'src/app/dtos/dto-categoria';
 
 @Component({
   selector: 'app-vista-home',
@@ -27,7 +28,9 @@ export class VistaHomeComponent implements OnInit {
   public entitySecreto: DtoSecret = new DtoSecret();
   public entitySecretoAdmin: DtoSecret = new DtoSecret();
   public entitySecretoGuardado: DtoSecret = new DtoSecret();
+
   public entityListarFiltro: EntityListarFiltro = new EntityListarFiltro();
+  public listaCategorias: DtoCategoria[] = [];
 
 
   // =======  Configuraciónes: Formulario y variables para usuarios ======= 
@@ -98,7 +101,7 @@ export class VistaHomeComponent implements OnInit {
 
   // =============================== METODOS PRINCIPALES ===============================
 
-  //----- Metodo listar secretos por paginando
+  //----- Listar secretos - paginando
   public listarSecretosPaginado(pagina: number): void {
     this.servicioDao.listarPaginadoSecretos(pagina, 10).subscribe(
       HttpResponse => {
@@ -114,15 +117,11 @@ export class VistaHomeComponent implements OnInit {
 
 
 
-  //----- Metodo listar secretos por filtro
+  //----- Listar secretos - Filtro
   public filtrarSecretosCategoria(): void {
 
-    let categoria: String = (document.getElementById('filtro-buscar-por-categoria') as HTMLInputElement).value;
-
-    if (categoria == "Todos") {
-      this.listarSecretosPaginado(0);
-    } else {
-      this.servicioDao.listarSecretosPorCategoria(categoria).subscribe(
+    let idCategoria: any = (document.getElementById('filtro-buscar-por-categoria') as HTMLInputElement).value;
+     this.servicioDao.listarSecretosPorIdCategoria(idCategoria).subscribe(
         HttpResponse => {
           this.listaSecretos = HttpResponse;
           this.numeroPaginas = [];
@@ -130,18 +129,18 @@ export class VistaHomeComponent implements OnInit {
         HttpErrorResponse => {
           this.manejoDeErrores(HttpErrorResponse);
         })
-    }
+   
   }
 
 
-  //----- Metodo guardar/editar secreto
-  public guardarSecreto(): void {
+  //----- Guardar/Editar secreto
+  public guardarEditarSecreto(): void {
 
     if (this.validarFormulario.valid) {
-
+      
       if (!this.entitySecreto.id) {
-
-        this.servicioDao.guardarSecreto(this.entitySecreto).subscribe(
+        let idCategoria: any = (document.getElementById('form-secreto-categoria') as HTMLInputElement).value;
+        this.servicioDao.guardarSecreto(this.entitySecreto, idCategoria).subscribe(
           HttpResponse => {
             swal.fire("¡SECRETO GUARDADO!", "", "success");
             this.entitySecretoGuardado = HttpResponse;
@@ -157,8 +156,8 @@ export class VistaHomeComponent implements OnInit {
 
 
       } else {
-
-        this.servicioDao.actualizarSecreto(this.entitySecreto).subscribe(
+        let idCategoria: any = (document.getElementById('form-secreto-categoria') as HTMLInputElement).value;
+        this.servicioDao.actualizarSecreto(this.entitySecreto, idCategoria).subscribe(
           HttpResponse => {
             swal.fire("¡SECRETO ACTUALIZADO!", "", "success");
             this.entitySecretoGuardado = HttpResponse;
@@ -180,11 +179,13 @@ export class VistaHomeComponent implements OnInit {
 
   }
 
+
   public editarSecretoAdmin():void{
-
-
     if (this.validarFormularioAdmin.valid && this.entitySecretoAdmin.id)  { 
-        this.servicioDao.actualizarSecretoAdmin(this.entitySecretoAdmin).subscribe(
+
+      let idCategoria: any = (document.getElementById('form-secreto-categoria-admin') as HTMLInputElement).value;
+      
+        this.servicioDao.actualizarSecretoAdmin(this.entitySecretoAdmin, idCategoria).subscribe(
           HttpResponse => {
             swal.fire("¡SECRETO ACTUALIZADO!", "", "success");
             this.listarSecretosPaginado(0);
@@ -198,7 +199,6 @@ export class VistaHomeComponent implements OnInit {
     } else {
       this.mensajeValidarForm = "*Rellena todos los campos";
     }
-
   }
 
 
@@ -217,7 +217,7 @@ export class VistaHomeComponent implements OnInit {
 
       if (result.isConfirmed) {
 
-        this.servicioDao.eliminarSecreto(entitySecreto.id).subscribe(
+        this.servicioDao.eliminarSecretoComoAdmin(entitySecreto.id).subscribe(
           HttpResponse => {
             swal.fire("¡SECRETO ELIMINADO!", "", "success");
 
@@ -295,11 +295,21 @@ export class VistaHomeComponent implements OnInit {
     })
   }
 
+   // =============================== METODOS CATEGORIAS ===============================
 
-  ngOnInit(): void {
-    this.activarFormularioGuardar();
-    this.listarSecretosPaginado(0);
+     //----- Metodo listar secretos por paginando
+  public listarCategorias(): void {
+    this.servicioDao.listarCategorias().subscribe(
+      HttpResponse => {
+        this.listaCategorias= HttpResponse;
+      },
+      HttpErrorResponse => {
+        this.manejoDeErrores(HttpErrorResponse);
+        console.error(HttpErrorResponse);
+      }
+    );
   }
+
 
   
   // =============================== METODOS AUXILIARES ===============================
@@ -313,7 +323,8 @@ export class VistaHomeComponent implements OnInit {
         swal.fire("¡ERROR 401 AL CARGAR!", httpError.error.error, "error");
         break;
       default:
-        swal.fire("¡ERROR AL CARGAR!", httpError.error.error, "error");
+        swal.fire("¡ERROR AL CARGAR!", httpError.error.errors, "error");
+        console.warn(httpError);
         break;
 
     }
@@ -329,6 +340,13 @@ export class VistaHomeComponent implements OnInit {
         this.numeroPaginas.push(i);
       }
     }
+  }
+
+  // ==============================================================
+  ngOnInit(): void {
+    this.activarFormularioGuardar();
+    this.listarSecretosPaginado(0);
+    this.listarCategorias();
   }
 
 

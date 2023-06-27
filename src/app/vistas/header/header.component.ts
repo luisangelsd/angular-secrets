@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Oauth2Service } from '../../servicios/oauth2.service';
+import { Oauth2Service } from '../../servicios/api-secrets-oauth2.service';
 import { Router } from '@angular/router';
 
 @Component({

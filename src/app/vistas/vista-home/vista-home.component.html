@@ -26,7 +26,7 @@
 
   <!--Formulario Registro/Editar - USER -->
   <h2><b>{{tituloForm}}</b></h2>
-  <form id="formulario-envio" (ngSubmit)="guardarSecreto()" [formGroup]="validarFormulario">
+  <form id="formulario-envio" (ngSubmit)="guardarEditarSecreto()" [formGroup]="validarFormulario">
 
     <!--Activo solo para Editar -->
     <div *ngIf="entitySecreto.id"><br>
@@ -39,20 +39,16 @@
 
     <p>Escribe Aquí: (500 Caracteres como máximo sin emojics)</p>
     <textarea formControlName="fg_secreto" [(ngModel)]="entitySecreto.secreto" name="secreto" maxlength="500" 
-      id="form-secreto"></textarea><br>
+    class="form-secreto-contenido" id="form-secreto"></textarea><br>
     <p>Elige una Categoría:</p>
-    <select formControlName="fg_categoria" [(ngModel)]="entitySecreto.categoria" name="categoria" id="form-categoria">
-      <option value="Mio"> Mio</option>
-      <option value="Familia">Familia</option>
-      <option value="Trabajo">Trabajo</option>
-      <option value="Amigos">Amigos</option>
-      <option value="Pareja">Pareja</option>
-      <option value="Conocido">Conocido</option>
+    <select formControlName="fg_categoria" [(ngModel)]="entitySecreto.categoria" name="categoria" id="form-secreto-categoria"
+    class="form-secreto-categoria">
+        <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre}}</option>
     </select><br>
-    <input type="submit" value="{{tituloBtn}}" id="form-enviar">
+    <input type="submit" value="{{tituloBtn}}" class="btn btn-warning">
 
     <!-- Sección: Activa solo para Editar -->
-    <button *ngIf="entitySecreto.id" type="button" (click)="activarFormularioGuardar()" id="form-cancelar">Cancelar</button>
+    <button *ngIf="entitySecreto.id" type="button" (click)="activarFormularioGuardar()" class="btn btn-danger">Cancelar</button>
   </form>
 </div>
 
@@ -75,20 +71,19 @@
     
     <p>Escribe Aquí: (500 Caracteres como máximo sin emojics)</p>
     <textarea formControlName="fa_secreto" [(ngModel)]="entitySecretoAdmin.secreto" name="secreto" maxlength="500" 
-      id="form-secreto"></textarea><br>
+      class="form-secreto-contenido"></textarea><br>
+
     <p>Elige una Categoría:</p>
-    <select formControlName="fa_categoria" [(ngModel)]="entitySecretoAdmin.categoria" name="categoria" id="form-categoria">
-      <option value="Mio"> Mio</option>
-      <option value="Familia">Familia</option>
-      <option value="Trabajo">Trabajo</option>
-      <option value="Amigos">Amigos</option>
-      <option value="Pareja">Pareja</option>
-      <option value="Conocido">Conocido</option>
+    <select formControlName="fa_categoria" [(ngModel)]="entitySecretoAdmin.categoria" name="categoria" id="form-secreto-categoria-admin"
+     class="form-secreto-categoria">
+      <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre}}</option>
     </select><br>
+
     <p>Fecha Creacion</p>
     <input type="date" formControlName="fa_fecha" [(ngModel)]="entitySecretoAdmin.fCreacion" id="form-fecha"><br><br>
-    <input type="submit" value="Actualizar" id="form-enviar">
+    <input type="submit" value="Actualizar" class="btn btn-warning">
     <button type="button" class="btn btn-danger" (click)="desactivarContenedorFormAdmin()" >Cancelar</button>
+
   </form>
 </div>
 
@@ -118,14 +113,14 @@
         <tr>
           <td>{{entitySecretoGuardado.id}}</td>
           <td>{{entitySecretoGuardado.secreto}}</td>
-          <td>{{entitySecretoGuardado.categoria}}</td>
+          <td>{{entitySecretoGuardado.entityCategoria?.nombre}}</td>
           <td>{{entitySecretoGuardado.fCreacion}}</td>
         </tr>
       </tbody>
     </table>       
     <div>
       <button type="button" (click)="buscarSecreto(entitySecretoGuardado)" class="btn btn-success">Editar</button>
-      <button type="button" (click)="eliminarSecreto(entitySecretoGuardado)" class="btn btn-danger">Eliminar</button>
+      <button type="button" class="btn btn-danger" (click)="puedeEditarSecreto=false" >Cancelar</button>
     </div>     
     <br><br>
   </div>
@@ -133,28 +128,24 @@
 
   <hr>
 
-  <!-- Se muestra cuando NO hay secretos a listar -->
+  <!-- ////////////////////////////// LISTAR SECRETOS //////////////////////////////////////////--->
+
+  <!-- Cuando no existen secretos -->
   <div *ngIf="listaSecretos==undefined; else seccionListado" id="c3-hijo1">
     <h2><b>🔐 Aun no hay Secretos Guardados:</b></h2>
     <p>Se el primero en escribir uno, nadie sabra que fuiste tu</p>
   </div>
 
   
- <!-- Se muestra cuando SI hay secretos a listar -->
+<!-- Cuando Si existen secretos -->
   <ng-template #seccionListado id="c3-hijo2">
     <h2><b>🔐 Secretos Guardados:</b></h2><br>
 
   <!-- Formulario para filtrar por categoria-->
     <div id="c3-seccion-filtrar-categoria">
-        <form  class="form">
-          <select  name="categoria" id="filtro-buscar-por-categoria" (change)="filtrarSecretosCategoria()">
-            <option value="Todos" selected="true" > Todos</option>
-            <option value="Mio">Mio</option>
-            <option value="Familia">Familia</option>
-            <option value="Trabajo">Trabajo</option>
-            <option value="Amigos">Amigos</option>
-            <option value="Pareja">Pareja</option>
-            <option value="Conocido">Conocido</option>
+        <form  class="form" >
+          <select  name="categoria" id="filtro-buscar-por-categoria"   (change)="filtrarSecretosCategoria()">
+            <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre}}</option>
           </select>
         </form>
     </div>
@@ -172,11 +163,11 @@
         <tr *ngFor="let secreto of listaSecretos">
           <td>{{secreto.id}}</td>
           <td>{{secreto.secreto}}</td>
-          <td>{{secreto.categoria}} </td>
+          <td>{{secreto.entityCategoria?.nombre}} </td>
           <td>{{secreto.fCreacion}}</td>
           <td *ngIf="oauth2Service.estaLogeado()">
-            <button type="button"  class="btn btn-warning" (click)="buscarSecretoAdmin(secreto)">Editar</button>
-            <button type="button" class="btn btn-danger" (click)="eliminarSecretoComoAdmin(secreto)">Eliminar</button>
+            <button type="button"  class="btn btn-warning"  (click)="buscarSecretoAdmin(secreto)" *ngIf="oauth2Service.tieneRol('ROLE_USER') || oauth2Service.tieneRol('ROLE_ADMIN')">Editar</button>
+            <button type="button" class="btn btn-danger"  (click)="eliminarSecretoComoAdmin(secreto)" *ngIf=" oauth2Service.tieneRol('ROLE_ADMIN')">Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -188,6 +179,5 @@
           <button (click)="listarSecretosPaginado(variable)" >{{ (variable+1) }}</button>
       </div>
     </div>
-
   </ng-template>
 </div>
