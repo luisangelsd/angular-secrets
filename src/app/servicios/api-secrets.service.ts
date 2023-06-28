@@ -130,7 +130,7 @@ public buscarSecreto(id:any):Observable<DtoSecret>{
 
 //======= Obtener usuario: Admin/User
 public buscarUsuarioPorUsername(username: string): Observable<DtoUser>{
-  return this.http.get(this.urlEndPointUsuarios+"ver/usuario/"+username).pipe(
+  return this.http.get(this.urlEndPointUsuarios+"ver/"+username).pipe(
     map(respuesta => respuesta as DtoUser)
   ,catchError(e=>{
     return throwError(e);

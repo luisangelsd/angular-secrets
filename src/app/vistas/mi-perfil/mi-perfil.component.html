@@ -1,5 +1,5 @@
 <section id="page-mi-perfil" *ngIf="dtoUser!null" >
-  <img src="http://localhost:8080/adm/imagen-perfil/show/{{dtoUser.urlFoto}}" id="img-perfil">
+  <img src="http://localhost:8080/usuarios/imagen-perfil/show/{{dtoUser.urlFoto}}" id="img-perfil">
   <button (click)="eliminarFoto()" class="btn btn-outline-secondary" *ngIf="dtoUser.urlFoto!='mi-perfil.png'">Eliminar Foto</button><br>
     <h1>Mi Perfil</h1>
         <table class="table" *ngIf="dtoUser!=null">
