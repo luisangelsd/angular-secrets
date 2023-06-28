@@ -1,27 +1,15 @@
-# Secretos
+# Documentacion:
+Este proyecto es el complemento FrontEnd de la siguiente API: https://github.com/sandovalguichoo/spring-secrets . Igualmente contiene una interfaz grafica para poder poder guardar, editar, eliminar y listar secretos de personas desconocida. De igual manera cuenta con Oauth2 para la administración completa de los secretos.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.5.
++ **Nota:** El proyecto ya viene configurado, solamente tienes que descargar y ejecutarlo
++ **Importante:** Es necesario que previamente hayas descargado el proyecto donde se construye la API y que se encuentre en ejecución
 
-## Development server
+## Algunas Características Importantes: :
++ Consumo de API
++ Manejo de sesión con Token´s
++ Guards
++ Interceptores
++ Componentes
++ Servicios
++ Entre otros
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
