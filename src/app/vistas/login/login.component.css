@@ -6,3 +6,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.btn-login{
+    width: 100%;
+    margin: 2% 0% 20% 0%;
+}

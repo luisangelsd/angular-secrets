@@ -143,6 +143,7 @@ public buscarUsuarioPorUsername(username: string): Observable<DtoUser>{
   return this.http.delete(this.urlEndPointUsuarios+"imagen-perfil/eliminar/"+username).pipe(
     map(respuesta=>{
     }),catchError(e=> {
+      console.error(e);
       return throwError(e);
     })
   ) 

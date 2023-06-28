@@ -1,11 +1,15 @@
 <section id="seccion-login">
+    <h1>Login</h1>
     <form (ngSubmit)="login()" [formGroup]="validacionesFormLogin">
         <input formControlName="form_user" [(ngModel)]="dtoUser.username" type="text"  name="username" placeholder="Username" required><br>
         <input formControlName="form_password" [(ngModel)]="dtoUser.password" type="password"  name="password" placeholder="Password" required><br>
-        <input type="submit" value="Login">
+        <input type="submit" value="Login"class="btn btn-success btn-login">
     </form>
-    <br><br>
-    <p>- Username: admin | Password: 123</p>
-    <p>- Username: user | Password: 123</p>
+    <br>
+    <p>Datos de Acceso:</p>
+    <ul>
+        <li>Username: admin | Password: 123 </li>
+        <li>Username: user | Password: 123</li>
+    </ul>
 </section>
 
