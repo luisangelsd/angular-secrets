@@ -43,7 +43,7 @@
     <p>Elige una Categoría:</p>
     <select formControlName="fg_categoria" [(ngModel)]="entitySecreto.categoria" name="categoria" id="form-secreto-categoria"
     class="form-secreto-categoria">
-        <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre}}</option>
+        <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre | titlecase}}</option>
     </select><br>
     <input type="submit" value="{{tituloBtn}}" class="btn btn-warning">
 
@@ -76,7 +76,7 @@
     <p>Elige una Categoría:</p>
     <select formControlName="fa_categoria" [(ngModel)]="entitySecretoAdmin.categoria" name="categoria" id="form-secreto-categoria-admin"
      class="form-secreto-categoria">
-      <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre}}</option>
+      <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre| titlecase}}</option>
     </select><br>
 
     <p>Fecha Creacion</p>
@@ -143,9 +143,10 @@
 
   <!-- Formulario para filtrar por categoria-->
     <div id="c3-seccion-filtrar-categoria">
-        <form  class="form" >
+      <small>Filtrar por Categoria: &nbsp;</small>
+        <form  class="form">
           <select  name="categoria" id="filtro-buscar-por-categoria"   (change)="filtrarSecretosCategoria()">
-            <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre}}</option>
+            <option *ngFor="let categoria of listaCategorias" value="{{categoria.id}}"> {{categoria.nombre| titlecase}}</option>
           </select>
         </form>
     </div>
@@ -163,7 +164,7 @@
         <tr *ngFor="let secreto of listaSecretos">
           <td>{{secreto.id}}</td>
           <td>{{secreto.secreto}}</td>
-          <td>{{secreto.entityCategoria?.nombre}} </td>
+          <td>{{secreto.entityCategoria?.nombre | titlecase}} </td>
           <td>{{secreto.fCreacion}}</td>
           <td *ngIf="oauth2Service.estaLogeado()">
             <button type="button"  class="btn btn-warning"  (click)="buscarSecretoAdmin(secreto)" *ngIf="oauth2Service.tieneRol('ROLE_USER') || oauth2Service.tieneRol('ROLE_ADMIN')">Editar</button>
